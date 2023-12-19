@@ -1,0 +1,83 @@
+{% extends "layout.html" %} {% block title %} Products {% endblock %} {% block
+main %}
+<input type="text" id="search" placeholder="Search products" />
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td>{{ product.name }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.price }}</td>
+      <td>
+        <form action="/add_to_cart" method="post">
+          <input
+            type="hidden"
+            name="product_id"
+            value="{{ product.product_id }}" />
+          <input
+            type="number"
+            name="quantity"
+            min="1"
+            max="{{ product.quantity_in_stock }}"
+            value="0" />
+          <td>
+            <button type="submit">Add to Cart</button>
+          </td>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br />
+
+<script>
+  const searchField = document.getElementById("search");
+  const tableBody = document.querySelector("tbody");
+
+  searchField.addEventListener("input", function () {
+    fetch("/search_products?query=" + this.value)
+      .then(response => response.json())
+      .then(data => {
+        tableBody.innerHTML = "";
+        data.forEach(product => {
+          const row = document.createElement("tr");
+          // Add more cells as needed
+          row.innerHTML = `
+                        <td>${product.name}</td>
+                        <td>${product.description}</td>
+                        <td>${product.price}</td>
+                        <td>
+                            <form action="/add_to_cart" method="post">
+                              <input
+                                type="hidden"
+                                name="product_id"
+                                value="${product.product_id}" />
+                              <input
+                                type="number"
+                                name="quantity"
+                                min="1"
+                                max="${product.quantity_in_stock}"
+                                value="0" />
+                              <td>
+                                <button type="submit">Add to Cart</button>
+                              </td>
+                            </form>
+                          </td>
+                    `;
+          tableBody.appendChild(row);
+        });
+      });
+  });
+</script>
+
+{% endblock %}

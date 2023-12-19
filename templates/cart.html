@@ -1,0 +1,29 @@
+{% extends "layout.html" %} {% block title %} Cart {% endblock %} {% block main
+%} {% if cart is defined and cart|length > 0 %}
+<form action="/place_order" method="post">
+  <table>
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+      <tr>
+        <td>{{ item.product_name }}</td>
+        <td>{{ item.quantity }}</td>
+        <input type="hidden" name="product_id" value="{{ item.product_id }}" />
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit">Place Order</button>
+</form>
+<form action="/cancel_order" method="post">
+  <button type="submit">Cancel Order</button>
+</form>
+{% else %}
+<p>Your shopping cart is empty</p>
+<p>Head to the <a href="/products">Products</a> page to continue shopping.</p>
+{% endif %} {% endblock %}

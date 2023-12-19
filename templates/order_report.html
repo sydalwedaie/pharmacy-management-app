@@ -1,0 +1,24 @@
+{% extends "dashboard_layout.html" %} {% block title %} {% block bread %} Staff
+Report {% endblock %} {% endblock %} {% block dashboard_content %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>User ID</th>
+      <th>Order Date</th>
+      <th>Total amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.order_id }}</td>
+      <td>{{ order.user_id }}</td>
+      <td>{{ order.order_date }}</td>
+      <td>{{ order.total_amount }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

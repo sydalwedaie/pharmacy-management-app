@@ -1,0 +1,22 @@
+{% extends "dashboard_layout.html" %} {% block title %} {% block bread %} Staff
+Report {% endblock %} {% endblock %} {% block dashboard_content %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Position</th>
+      <th>Date of Join</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for member in staff %}
+    <tr>
+      <td>{{ member.name }}</td>
+      <td>{{ member.position }}</td>
+      <td>{{ member.date_of_join }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "layout.html" %} {% block title %} Log In {% endblock %} {% block
+main %} {% if session["user_id"] %}
+<p>You are already logged in!</p>
+{% else %}
+<form action="/login" method="post">
+  <div class="grid">
+    <input
+      name="username"
+      type="text"
+      autofocus
+      autocomplte="off"
+      placeholder="username" />
+    <input name="password" type="password" placeholder="password" />
+    <input type="hidden" name="user_type" value="staff" />
+  </div>
+  <button type="submit" role="button">Log In</button>
+</form>
+{% endif %} {% endblock %}

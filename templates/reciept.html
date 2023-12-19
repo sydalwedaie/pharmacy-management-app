@@ -1,0 +1,28 @@
+{% extends "layout.html" %} {% block title %} Receipt {% endblock %} {% block
+main %}
+<h2>Order Receipt</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order_details %}
+    <tr>
+      <td>{{ item.product_name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.price }}</td>
+      <td>{{ item.quantity * item.price }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<h3>Total Amount: {{ total_amount }}</h3>
+<p>Please print this reciept and present it in the pharmacy.</p>
+<p>Payment in cash, card or Benefit Pay at the pharmacy.</p>
+<p>Thank you for shopping with us.</p>
+{% endblock %}

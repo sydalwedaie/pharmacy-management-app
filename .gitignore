@@ -1,0 +1,6 @@
+.DS_Store
+database.db
+flask_session/
+__pycache__/
+.venv/
+

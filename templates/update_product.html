@@ -1,0 +1,41 @@
+{% extends "dashboard_layout.html" %} {% block title %} {% block bread %} Update
+Product {%endblock %} {% endblock %} {% block dashboard_content %}
+<form action="/update_product" method="post">
+  <div class="form-group">
+    <select name="product_name">
+      <option disabled selected>Select Product</option>
+      {% for product in products %}
+      <option value="{{ product.name }}">{{ product.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="product_price">Product Price</label>
+    <input
+      class="form-control"
+      id="product_price"
+      name="product_price"
+      placeholder="Product Price"
+      type="text" />
+  </div>
+  <div class="form-group">
+    <label for="product_description">Product Description</label>
+    <input
+      class="form-control"
+      id="product_description"
+      name="product_description"
+      placeholder="Product Description"
+      type="text" />
+  </div>
+  <div class="form-group">
+    <label for="product_quantity">Product Quantity</label>
+    <input
+      class="form-control"
+      id="product_quantity"
+      name="product_quantity"
+      placeholder="Product Quantity"
+      type="text" />
+  </div>
+  <button class="btn btn-primary" type="submit">Update Product</button>
+</form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "dashboard_layout.html" %} {% block title %} {% block bread %}
+Product Report {% endblock %} {% endblock %} {% block dashboard_content %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Supplier</th>
+      <th>Expiry Date</th>
+      <th>Price</th>
+      <th>Quantity in Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td>{{ product.name }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.supplier }}</td>
+      <td>{{ product.expiry_date }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.quantity_in_stock }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
