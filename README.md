@@ -17,13 +17,14 @@ The application is structured as follows:
 
 To run the application, follow these steps:
 
-- Make sure you have Python3 installed. If not, download from python.org
+- Make sure you have Python3 installed. If not, download from python.org.
 - Clone the repository to your local machine.
 - Navigate to the directory containing the application.
-- Run `pip install -r requirements.txt` to install the required packages
-- Run the 'python3 init_db.py' script to initialize the database:
-- Start the application by running `flask run`
-- Open a web browser and navigate the address displayed in the previous step
+- Run `pip install -r requirements.txt` to install the required packages.
+- Run `python3 init_db.py` to initialize the database.
+- Run `flask run` to start the application.
+- Ignore the WARNING and note the address where it says "Running on http://...".
+- Open a web browser and navigate the address displayed in the previous step.
 
 ## Libraries
 
