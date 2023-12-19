@@ -20,6 +20,7 @@ To run the application, follow these steps:
 - Make sure you have Python3 installed. If not, download from python.org
 - Clone the repository to your local machine.
 - Navigate to the directory containing the application.
+- Run `pip install -r requirements.txt` to install the required packages
 - Run the 'python3 init_db.py' script to initialize the database:
 - Start the application by running `flask run`
 - Open a web browser and navigate the address displayed in the previous step
