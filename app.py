@@ -1,6 +1,4 @@
-# Description: This file contains the main application logic for the website. It is responsible for handling all the routes and rendering the appropriate templates. It also contains the logic for the helper functions.
-# Document this page in detail. Assume a reader who has not seen this code before. The reader has basic programming skills in php and has never seen python before. The user has good knowledge of HTML and CSS.
-# 
+# Description: This file contains the main application logic for the website. It is responsible for handling all the routes and rendering the appropriate templates. It also contains the logic for the helper functions. 
 
 import time
 
@@ -45,7 +43,7 @@ def utilities():
 
 @app.after_request
 def after_request(response):
-    """Ensure responses aren't cached"""
+    # Ensure responses aren't cached
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
@@ -69,17 +67,21 @@ def index():
 @app.route("/products")
 @login_required
 def products():
-    # Access via GET
-    if request.method == "GET":
-        # get cart items
-        products = database.execute("SELECT product_id, name, description, price, quantity_in_stock FROM Products")
-        return render_template("products.html", products=products)
+    # get cart items
+    products = database.execute("""
+        SELECT product_id, name, description, price, quantity_in_stock 
+        FROM Products
+    """)
+    return render_template("products.html", products=products)
 
 
 @app.route("/search_products")
 def search_products():
     query = request.args.get('query')
-    products = database.execute("SELECT * FROM Products WHERE name LIKE ?", '%' + query + '%')
+    products = database.execute(
+        "SELECT * FROM Products WHERE name LIKE ?",
+        '%' + query + '%'
+    )
     return jsonify(products)
 
 
@@ -174,7 +176,6 @@ def register():
             database.execute("SELECT user_id FROM Users WHERE username=?", username)[0]["user_id"], username
         )
     
-
     # Log the user in
     user_entry = database.execute("SELECT * FROM Users WHERE username=?", username)
     session["user_id"] = user_entry[0]["user_id"]
@@ -202,8 +203,6 @@ def edit_profile():
         elif session.get("user_type") == "customer":
             customer_data = database.execute("SELECT * FROM CustomerData WHERE user_id=?", user_id)[0]
             return render_template("edit_profile.html", user_data=user_data, customer_data=customer_data)
-        
-    
 
     # Access via POST
     name = request.form.get("name")
@@ -384,21 +383,30 @@ def place_order():
     """, user_id)
 
     # Create a new order
-    database.execute("INSERT INTO Orders (user_id, order_date, total_amount) VALUES (?, CURRENT_DATE, ?)",
-                        user_id, sum(item['price'] * item['quantity'] for item in cart_items))
+    database.execute(
+        "INSERT INTO Orders (user_id, order_date, total_amount) VALUES (?, CURRENT_DATE, ?)",
+        user_id, sum(item['price'] * item['quantity'] for item in cart_items)
+    )
 
     # Get the ID of the newly created order
-    order_id = database.execute("SELECT order_id FROM Orders WHERE user_id = ? ORDER BY order_id DESC LIMIT 1", user_id)[0]['order_id']
+    order_id = database.execute(
+        "SELECT order_id FROM Orders WHERE user_id = ? ORDER BY order_id DESC LIMIT 1",
+        user_id
+    )[0]['order_id']
 
     # Insert items into OrderDetails
     for item in cart_items:
-        database.execute("INSERT INTO OrderDetails (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)",
-                            order_id, item['product_id'], item['quantity'], item['price'])
+        database.execute(
+            "INSERT INTO OrderDetails (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)",
+            order_id, item['product_id'], item['quantity'], item['price']
+        )
 
     # Update the Products table to reflect the new stock levels
     for item in cart_items:
-        database.execute("UPDATE Products SET quantity_in_stock = quantity_in_stock - ? WHERE product_id = ?",
-                            item['quantity'], item['product_id'])
+        database.execute(
+            "UPDATE Products SET quantity_in_stock = quantity_in_stock - ? WHERE product_id = ?",
+            item['quantity'], item['product_id']
+        )
 
     # Clear the user's cart
     database.execute("DELETE FROM Cart WHERE user_id = ?", user_id)
@@ -419,21 +427,34 @@ def cancel_order():
 @login_required
 def reciept():
     user_id = session.get("user_id")
-    order = database.execute("SELECT * FROM Orders WHERE user_id = ? ORDER BY order_id DESC LIMIT 1", user_id)[0]
+    order = database.execute(
+        "SELECT * FROM Orders WHERE user_id = ? ORDER BY order_id DESC LIMIT 1",
+        user_id
+    )[0]
+
     order_details = database.execute("""
         SELECT OrderDetails.quantity, OrderDetails.price, Products.name as product_name
         FROM OrderDetails
         INNER JOIN Products ON OrderDetails.product_id = Products.product_id
         WHERE OrderDetails.order_id = ?
     """, order['order_id'])
-    return render_template("reciept.html", order_details=order_details, total_amount=order['total_amount'])
+
+    return render_template(
+        "reciept.html", 
+        order_details=order_details, 
+        total_amount=order['total_amount']
+    )
 
 
 @app.route("/order_history")
 @login_required
 def order_history():
     user_id = session.get("user_id")
-    orders = database.execute("SELECT * FROM Orders WHERE user_id = ? ORDER BY order_date DESC", user_id)
+    orders = database.execute(
+        "SELECT * FROM Orders WHERE user_id = ? ORDER BY order_date DESC",
+        user_id
+    )
+
     for order in orders:
         order['order_details'] = database.execute("""
             SELECT OrderDetails.quantity, OrderDetails.price, Products.name as product_name
@@ -441,4 +462,5 @@ def order_history():
             INNER JOIN Products ON OrderDetails.product_id = Products.product_id
             WHERE OrderDetails.order_id = ?
         """, order['order_id'])
+
     return render_template("order_history.html", orders=orders)
