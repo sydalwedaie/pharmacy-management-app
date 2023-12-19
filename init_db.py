@@ -13,14 +13,14 @@ cursor.executescript(schema_script)
 
 # Insert demo data into the database
 # Insert Users
-cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('amirah123', 'hash1', 'customer', 'amirah@example.com', '1234567890')")
-cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('yahya456', 'hash2', 'customer', 'yahya@example.com', '2345678901')")
-cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('noura789', 'hash3', 'staff', 'noura@example.com', '3456789012')")
-cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('fahad321', 'hash4', 'staff', 'fahad@example.com', '4567890123')")
+cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('amirah123', 'hash1', 'customer', 'amirah@example.com', '+973-12345678')")
+cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('yahya456', 'hash2', 'customer', 'yahya@example.com', '+973-12322678')")
+cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('noura789', 'hash3', 'staff', 'noura@example.com', '+973-12345128')")
+cursor.execute("INSERT INTO Users (username, password_hash, user_type, email, contact_number) VALUES ('fahad321', 'hash4', 'staff', 'fahad@example.com', '+973-11945678')")
 
 # Insert Customer Data
-cursor.execute("INSERT INTO CustomerData (user_id, name, address, contact_number) VALUES (1, 'Amirah Al-Sayed', 'Manama, Bahrain', '+973-12345678')")
-cursor.execute("INSERT INTO CustomerData (user_id, name, address, contact_number) VALUES (2, 'Yahya Al-Dossary', 'Riffa, Bahrain', '+973-23456789')")
+cursor.execute("INSERT INTO CustomerData (user_id, name, address) VALUES (1, 'Amirah Al-Sayed', 'Manama, Bahrain')")
+cursor.execute("INSERT INTO CustomerData (user_id, name, address) VALUES (2, 'Yahya Al-Dossary', 'Riffa, Bahrain')")
 
 # Insert Staff Data
 cursor.execute("INSERT INTO StaffData (user_id, name, position, date_of_join) VALUES (3, 'Noura Al Khalifa', 'Pharmacist', '2015-03-01')")

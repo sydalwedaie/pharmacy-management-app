@@ -33,7 +33,10 @@ def utilities():
             "SELECT username FROM Users WHERE user_id=?",
             session.get("user_id")
         )
-        return user_entry[0]["username"]
+        if user_entry:
+            return user_entry[0]["username"]
+        else:
+            return None
 
     return dict({
         "username": username,
@@ -57,6 +60,7 @@ def after_request(response):
 # The function is executed when the user visits the URL associated with the route. For example, the index() function is executed when the user visits the URL http://localhost:5000/. Similarly, the login() function is executed when the user visits the URL http://localhost:5000/login.
 
 @app.route("/")
+@login_required
 def index():
     return render_template("index.html")
 
@@ -67,6 +71,7 @@ def index():
 def products():
     # Access via GET
     if request.method == "GET":
+        # get cart items
         products = database.execute("SELECT product_id, name, description, price, quantity_in_stock FROM Products")
         return render_template("products.html", products=products)
 
@@ -383,7 +388,7 @@ def place_order():
                         user_id, sum(item['price'] * item['quantity'] for item in cart_items))
 
     # Get the ID of the newly created order
-    order_id = database.execute("SELECT last_insert_rowid() as id")[0]['id']
+    order_id = database.execute("SELECT order_id FROM Orders WHERE user_id = ? ORDER BY order_id DESC LIMIT 1", user_id)[0]['order_id']
 
     # Insert items into OrderDetails
     for item in cart_items:

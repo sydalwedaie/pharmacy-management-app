@@ -1,25 +1,28 @@
 <!-- This is the layout for the dashboard pages. It is a child template of the main layout.-->
 
 {% extends "layout.html" %} {% block title %} {% endblock %} {% block main %}
-<aside class="dashboard-sidebar">
-  <h3>Inventory Control</h3>
-  <ul>
-    <li><a href="/add_product">Add New Product</a></li>
-    <li><a href="/update_product">Update Product</a></li>
-  </ul>
-  <br />
+<div class="dashboard">
+  <aside class="dashboard-sidebar">
+    <h3>Inventory Control</h3>
+    <ul>
+      <li><a href="/add_product">Add New Product</a></li>
+      <li><a href="/update_product">Update Product</a></li>
+    </ul>
+    <br />
 
-  <h3>Reports</h3>
-  <ul>
-    <li><a href="/staff_report">Staff Report</a></li>
-    <li><a href="/product_report">Product Report</a></li>
-    <li><a href="/order_report">Orders Report</a></li>
-  </ul>
-</aside>
-<nav class="dashboard-breadcrumb">
-  Dashboard > {% block bread %} {% endblock %}
-</nav>
-<main class="dashboard-content">
-  {% block dashboard_content %} {% endblock %}
-</main>
+    <h3>Reports</h3>
+    <ul>
+      <li><a href="/staff_report">Staff Report</a></li>
+      <li><a href="/product_report">Product Report</a></li>
+      <li><a href="/order_report">Orders Report</a></li>
+    </ul>
+  </aside>
+
+  <main class="dashboard-content">
+    <nav class="dashboard-breadcrumb">
+      Dashboard > {% block bread %} {% endblock %}
+    </nav>
+    {% block dashboard_content %} {% endblock %}
+  </main>
+</div>
 {% endblock %}

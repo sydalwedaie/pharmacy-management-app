@@ -1,23 +1,73 @@
-/* Size for brand */
-nav .navbar-brand
-{
-    font-size: xx-large;
+.main-menu {
+    background-color: #e2f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Colors for brand */
-nav .navbar-brand .blue
-{
-    color: #537fbe;
+.main-menu #navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
-nav .navbar-brand .red
-{
-    color: #ea433b;
+.dashboard {
+    background-color: #e2f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
 }
-nav .navbar-brand .yellow
-{
-    color: #f5b82e;
+
+.dashboard-sidebar {
+    width: 25%;
+    min-width: 200px;
+    min-height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-right: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-nav .navbar-brand .green
-{
-    color: #2e944b;
+
+.dashboard-sidebar ul {
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard-content {
+    flex: 1;
+    height: 100%;
+}
+
+.dashboard-breadcrumb {
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h3, h2 {
+    margin: 0;
+    color: rgb(40, 104, 104)
+}
+table {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+table form, table form input {
+    margin: 0;
+}
+
+footer {
+    background-color: #e2f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

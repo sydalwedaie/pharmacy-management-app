@@ -16,7 +16,7 @@
   </head>
 
   <body>
-    <nav class="">
+    <nav class="main-menu">
       <div class="container">
         <a href="/">NTF Pharmacy</a>
         <div id="navbar">
@@ -26,14 +26,14 @@
             <li><a href="/products">Products</a></li>
             <li><a href="/cart">Cart</a></li>
             <li><a href="/order_history">Order History</a></li>
-          </ul>
-          <p>
-            {{ username(session.get("user_id")) }} (<a href="/edit_profile"
-              >Edit Profile</a
-            >)
-          </p>
-          <ul>
             <li><a href="/logout">Log Out</a></li>
+          </ul>
+          <ul>
+            <li>
+              {{ username(session.get("user_id")) }} (<a href="/edit_profile"
+                ><small>Edit Profile</small></a
+              >)
+            </li>
           </ul>
 
           {% else %}
