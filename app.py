@@ -1,4 +1,6 @@
 # Description: This file contains the main application logic for the website. It is responsible for handling all the routes and rendering the appropriate templates. It also contains the logic for the helper functions.
+# Document this page in detail. Assume a reader who has not seen this code before. The reader has basic programming skills in php and has never seen python before. The user has good knowledge of HTML and CSS.
+# 
 
 import time
 
@@ -50,11 +52,16 @@ def after_request(response):
 ################################################################################
 # Routes
 ################################################################################
+
+# Each route is a function that returns a response. The response can be a string, a template, or a redirect.
+# The function is executed when the user visits the URL associated with the route. For example, the index() function is executed when the user visits the URL http://localhost:5000/. Similarly, the login() function is executed when the user visits the URL http://localhost:5000/login.
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
+# The login_required() decorator ensures that the user is logged in before they can access the route. If the user is not logged in, they are redirected to the login page.
 @app.route("/products")
 @login_required
 def products():
@@ -64,7 +71,15 @@ def products():
         return render_template("products.html", products=products)
 
 
+@app.route("/search_products")
+def search_products():
+    query = request.args.get('query')
+    products = database.execute("SELECT * FROM Products WHERE name LIKE ?", '%' + query + '%')
+    return jsonify(products)
+
+
 # User Management Routes #######################################################
+# There are two ways to access a route: GET and POST. The GET method is used to access a route via a URL. The POST method is used to access a route via a form submission. In this route, if the user visits the logic route directly, the GET branch is executed and the user is presented with a login form. If the user submits the login form, the form data is sent to the same route via the POST method. The route then checks the username and password and logs the user in if they are valid.
 @app.route("/login", methods=["GET", "POST"])
 def login():
     # User reached route via login URL
@@ -102,6 +117,7 @@ def logout():
 
 
 # staff login required
+# This route is executed when the user tries to access a staff-only route without being logged in as a staff member. The user is redirected to the staff login page.
 @app.route("/staff_restricted")
 @login_required
 def staff_restricted():
@@ -384,7 +400,15 @@ def place_order():
 
     # Redirect to a confirmation page or the home page
     return redirect("/reciept")
-    
+
+
+@app.route("/cancel_order", methods=["POST"])
+@login_required
+def cancel_order():
+    user_id = session.get("user_id")
+    database.execute("DELETE FROM Cart WHERE user_id = ?", user_id)
+    return redirect("/cart")
+
 
 @app.route("/reciept", methods=["GET", "POST"])
 @login_required
@@ -400,14 +424,6 @@ def reciept():
     return render_template("reciept.html", order_details=order_details, total_amount=order['total_amount'])
 
 
-@app.route("/cancel_order", methods=["POST"])
-@login_required
-def cancel_order():
-    user_id = session.get("user_id")
-    database.execute("DELETE FROM Cart WHERE user_id = ?", user_id)
-    return redirect("/cart")
-
-
 @app.route("/order_history")
 @login_required
 def order_history():
@@ -421,10 +437,3 @@ def order_history():
             WHERE OrderDetails.order_id = ?
         """, order['order_id'])
     return render_template("order_history.html", orders=orders)
-
-
-@app.route("/search_products")
-def search_products():
-    query = request.args.get('query')
-    products = database.execute("SELECT * FROM Products WHERE name LIKE ?", '%' + query + '%')
-    return jsonify(products)
