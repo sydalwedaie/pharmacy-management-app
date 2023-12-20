@@ -227,6 +227,10 @@ def edit_profile():
     elif session.get("user_type") == "staff":
         position = request.form.get("position")
         date_of_join = request.form.get("date_of_join")
+        # date of join should not be in the future
+        if date_of_join > time.strftime("%Y-%m-%d"):
+            return apology("Date of join cannot be in the future" )
+
         database.execute(
             "UPDATE StaffData SET name = ?, position = ?, date_of_join = ? WHERE user_id = ?",
             name, position, date_of_join, user_id
@@ -263,7 +267,7 @@ def add_product():
         return apology("Price must be a positive number" )
     elif not quantity:
         return apology("Must provide a quantity" )
-    elif int(quantity) <= 0:
+    elif int(quantity) < 0:
         return apology("Quantity must be a positive number" )
 
 
@@ -292,8 +296,8 @@ def update_product():
     # Access via POST
     name = request.form.get("product_name")
     description = request.form.get("product_description")
-    #supplier = request.form.get("product_supplier")
-    #expiry_date = request.form.get("product_expiry_date")
+    supplier = request.form.get("product_supplier")
+    expiry_date = request.form.get("product_expiry_date")
     price = request.form.get("product_price")
     quantity = request.form.get("product_quantity")
 
@@ -304,6 +308,13 @@ def update_product():
         return apology("Must provide a description" )
     elif not price:
         return apology("Must provide a price" )
+    elif float(price) <= 0:
+        return apology("Price must be a positive number" )
+    elif not quantity:
+        return apology("Must provide a quantity" )
+    elif int(quantity) < 0:
+        return apology("Quantity must be a positive number" )
+
 
     # update product in database
     database.execute(
@@ -353,6 +364,10 @@ def add_to_cart():
     quantity = request.form.get("quantity")
     user_id = session.get("user_id")
 
+    # cannot add an expired product to cart
+    if database.execute("SELECT expiry_date FROM Products WHERE product_id=?", product_id)[0]['expiry_date'] < time.strftime("%Y-%m-%d"):
+        return apology("Sorry! This product is currently unavailable for purchase." ) 
+        
     # Add product to cart
     database.execute(
         "INSERT INTO Cart (user_id, product_id, quantity) VALUES (?, ?, ?)",

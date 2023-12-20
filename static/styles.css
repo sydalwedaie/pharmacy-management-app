@@ -1,8 +1,6 @@
 .main-menu {
     /* background-color: #e2f5f5; */
     padding: 20px;
-    border-radius: 10px;
-    
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -10,13 +8,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
 
+.home {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
 }
 .dashboard {
     /* background-color: #e2f5f5; */
     padding: 20px;
     border-radius: 10px;
-    
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     display: flex;
 }
@@ -64,10 +67,12 @@ table form, table form input {
     margin: 0;
 }
 
-footer {
+footer.container {
     /* background-color: #e2f5f5; */
     padding: 20px;
     border-radius: 10px;
     margin-top: 20px;
+    margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
