@@ -1,5 +1,5 @@
 .main-menu {
-    background-color: #e2f5f5;
+    /* background-color: #e2f5f5; */
     padding: 20px;
     border-radius: 10px;
     
@@ -13,7 +13,7 @@
 
 }
 .dashboard {
-    background-color: #e2f5f5;
+    /* background-color: #e2f5f5; */
     padding: 20px;
     border-radius: 10px;
     
@@ -25,7 +25,7 @@
     width: 25%;
     min-width: 200px;
     min-height: 100%;
-    background-color: #fff;
+    /* background-color: #fff; */
     padding: 20px;
     border-radius: 10px;
     margin-right: 20px;
@@ -44,7 +44,7 @@
 
 .dashboard-breadcrumb {
     margin-bottom: 20px;
-    background-color: #fff;
+    /* background-color: #fff; */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -55,7 +55,7 @@ h3, h2 {
     color: rgb(40, 104, 104)
 }
 table {
-    background-color: #fff;
+    /* background-color: #fff; */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
@@ -65,7 +65,7 @@ table form, table form input {
 }
 
 footer {
-    background-color: #e2f5f5;
+    /* background-color: #e2f5f5; */
     padding: 20px;
     border-radius: 10px;
     margin-top: 20px;

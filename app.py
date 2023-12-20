@@ -99,9 +99,9 @@ def login():
 
     # Check username and passwrod are supplied
     if not username:
-        return apology("must provide username", 400)
+        return apology("must provide username" )
     elif not password:
-        return apology("must provide password", 400)
+        return apology("must provide password" )
 
     # Query database for username
     user_entry = database.execute("SELECT * FROM Users WHERE username=?", username)
@@ -144,19 +144,19 @@ def register():
 
     # Validate username
     if not username:
-        return apology("Must supply a username.", 400)
+        return apology("Must supply a username." )
     elif database.execute("SELECT username FROM Users WHERE username=?", username):
-        return apology("Username already exists. Choose another username.", 400)
+        return apology("Username already exists. Choose another username." )
 
     # Validate password
     if not password:
-        return apology("Must supply a password.", 400)
+        return apology("Must supply a password." )
 
     # Validate confirmation
     if not confirmation:
-        return apology("Must supply a confirmation.", 400)
+        return apology("Must supply a confirmation." )
     elif password != confirmation:
-        return apology("Password and Confirmation do not match.", 400)
+        return apology("Password and Confirmation do not match." )
 
     # Add user to database
     database.execute(
@@ -254,11 +254,18 @@ def add_product():
 
     # Validate inputs
     if not name:
-        return apology("Must provide a name", 400)
+        return apology("Must provide a name" )
     elif not description:
-        return apology("Must provide a description", 400)
+        return apology("Must provide a description" )
     elif not price:
-        return apology("Must provide a price", 400)
+        return apology("Must provide a price" )
+    elif float(price) <= 0:
+        return apology("Price must be a positive number" )
+    elif not quantity:
+        return apology("Must provide a quantity" )
+    elif int(quantity) <= 0:
+        return apology("Quantity must be a positive number" )
+
 
     # Add product to database
     database.execute(
@@ -292,11 +299,11 @@ def update_product():
 
     # Validate inputs
     if not name:
-        return apology("Must provide a name", 400)
+        return apology("Must provide a name" )
     elif not description:
-        return apology("Must provide a description", 400)
+        return apology("Must provide a description" )
     elif not price:
-        return apology("Must provide a price", 400)
+        return apology("Must provide a price" )
 
     # update product in database
     database.execute(
