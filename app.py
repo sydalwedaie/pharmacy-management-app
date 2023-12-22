@@ -144,17 +144,17 @@ def register():
 
     # Validate username
     if not username:
-        return apology("Must supply a username." )
+        return apology("Please provide a username." )
     elif database.execute("SELECT username FROM Users WHERE username=?", username):
         return apology("Username already exists. Choose another username." )
 
     # Validate password
     if not password:
-        return apology("Must supply a password." )
+        return apology("Please provide a password." )
 
     # Validate confirmation
     if not confirmation:
-        return apology("Must supply a confirmation." )
+        return apology("Please provide a confirmation." )
     elif password != confirmation:
         return apology("Password and Confirmation do not match." )
 
@@ -258,15 +258,15 @@ def add_product():
 
     # Validate inputs
     if not name:
-        return apology("Must provide a name" )
+        return apology("Please provide a name" )
     elif not description:
-        return apology("Must provide a description" )
+        return apology("Please provide a description" )
     elif not price:
-        return apology("Must provide a price" )
+        return apology("Please provide a price" )
     elif float(price) <= 0:
         return apology("Price must be a positive number" )
     elif not quantity:
-        return apology("Must provide a quantity" )
+        return apology("Please provide a quantity" )
     elif int(quantity) < 0:
         return apology("Quantity must be a positive number" )
 
@@ -303,15 +303,15 @@ def update_product():
 
     # Validate inputs
     if not name:
-        return apology("Must provide a name" )
+        return apology("Please provide a name" )
     elif not description:
-        return apology("Must provide a description" )
+        return apology("Please provide a description" )
     elif not price:
-        return apology("Must provide a price" )
+        return apology("Please provide a price" )
     elif float(price) <= 0:
         return apology("Price must be a positive number" )
     elif not quantity:
-        return apology("Must provide a quantity" )
+        return apology("Please provide a quantity" )
     elif int(quantity) < 0:
         return apology("Quantity must be a positive number" )
 
@@ -364,15 +364,42 @@ def add_to_cart():
     quantity = request.form.get("quantity")
     user_id = session.get("user_id")
 
+    available_quantity = database.execute("SELECT quantity_in_stock FROM Products WHERE product_id=?", product_id)[0]['quantity_in_stock']
+    cart_quantity = database.execute("SELECT quantity FROM Cart WHERE product_id=? AND user_id=?", product_id, user_id)
+
     # cannot add an expired product to cart
-    if database.execute("SELECT expiry_date FROM Products WHERE product_id=?", product_id)[0]['expiry_date'] < time.strftime("%Y-%m-%d"):
-        return apology("Sorry! This product is currently unavailable for purchase." ) 
+    expiry_date = database.execute("SELECT expiry_date FROM Products WHERE product_id=?", product_id)[0]['expiry_date']
+    if expiry_date < time.strftime("%Y-%m-%d"):
+        return apology("Sorry! This product is currently unavailable for purchase.") 
+
+
+    # must check current quantity in cart as well as quantity in stock
+    if cart_quantity:
+        available_quantity -= cart_quantity[0]['quantity']
+
+    # cannot add more than the available quantity to cart
+    if available_quantity == 0:
+        return apology("Sorry! This product is out of stock.")
+    
+
+    if int(quantity) > available_quantity:
+        return apology("Sorry! We only have " + str(available_quantity) + " units of this product in stock." )
+
         
     # Add product to cart
-    database.execute(
-        "INSERT INTO Cart (user_id, product_id, quantity) VALUES (?, ?, ?)",
-        user_id, product_id, quantity
-    )
+    # if item not in cart add it
+    if not cart_quantity:
+        database.execute(
+            "INSERT INTO Cart (user_id, product_id, quantity) VALUES (?, ?, ?)",
+            user_id, product_id, quantity
+        )
+    # if item already in cart, add the quantity to the existing quantity
+    else:
+        database.execute(
+            "UPDATE Cart SET quantity = quantity + ? WHERE product_id = ? AND user_id = ?",
+            quantity, product_id, user_id
+        )
+
 
     # Redirect to products page
     return redirect("/products")

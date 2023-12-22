@@ -23,12 +23,7 @@ main %}
             type="hidden"
             name="product_id"
             value="{{ product.product_id }}" />
-          <input
-            type="number"
-            name="quantity"
-            min="1"
-            max="{{ product.quantity_in_stock }}"
-            value="0" />
+          <input type="number" name="quantity" value="0" />
           <td>
             <button type="submit">Add to Cart</button>
           </td>
