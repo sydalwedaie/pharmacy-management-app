@@ -3,7 +3,7 @@
 import time
 
 from cs50 import SQL
-from flask import Flask, redirect, render_template, request, session, jsonify
+from flask import Flask, redirect, render_template, request, flash, session, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -367,6 +367,10 @@ def add_to_cart():
     available_quantity = database.execute("SELECT quantity_in_stock FROM Products WHERE product_id=?", product_id)[0]['quantity_in_stock']
     cart_quantity = database.execute("SELECT quantity FROM Cart WHERE product_id=? AND user_id=?", product_id, user_id)
 
+    # cannot add a product with quantity 0 to cart
+    if int(quantity) == 0:
+        return apology("Please enter a quantity greater than 0.")
+
     # cannot add an expired product to cart
     expiry_date = database.execute("SELECT expiry_date FROM Products WHERE product_id=?", product_id)[0]['expiry_date']
     if expiry_date < time.strftime("%Y-%m-%d"):
@@ -400,6 +404,7 @@ def add_to_cart():
             quantity, product_id, user_id
         )
 
+    flash("Product added to cart successfully.")
 
     # Redirect to products page
     return redirect("/products")

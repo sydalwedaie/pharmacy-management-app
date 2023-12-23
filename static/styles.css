@@ -76,3 +76,15 @@ footer.container {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
+
+.alert {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 10px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}

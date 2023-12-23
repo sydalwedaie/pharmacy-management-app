@@ -46,6 +46,9 @@
       </div>
     </nav>
 
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     <main class="container">{% block main %}{% endblock %}</main>
 
     <footer class="container">
