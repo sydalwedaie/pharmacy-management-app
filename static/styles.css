@@ -63,8 +63,8 @@ table {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-table form, table form input {
-    margin: 0;
+table form, table form input, table button {
+    margin: 5px 0 5px !important;
 }
 
 footer.container {

@@ -404,7 +404,11 @@ def add_to_cart():
             quantity, product_id, user_id
         )
 
-    flash("Product added to cart successfully.")
+    # get product name
+    product_name = database.execute("SELECT name FROM Products WHERE product_id=?", product_id)[0]['name']
+
+    # Flash a message to the user
+    flash(product_name + " added to cart successfully.")
 
     # Redirect to products page
     return redirect("/products")
